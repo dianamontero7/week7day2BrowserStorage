@@ -105,9 +105,9 @@ clearCartButton.addEventListener("click", function(){
 })
 
 
+
 // Initial rendering of categories
 renderCategories(categories)
 
 // Initial rendering of all books
 renderBooks(books);
-
