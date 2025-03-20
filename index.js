@@ -46,7 +46,12 @@ function renderBooks(booksToRender) {
         bookHTML.appendChild(bookAuthorHTML);
         bookHTML.appendChild(addToCartButtonHTML);
         bookListHTML.appendChild(bookHTML);
+
+
+     
+
     }
+
 }
 
 function renderCategories(categoriesToRender){
@@ -71,6 +76,9 @@ function renderCategories(categoriesToRender){
         });
 
         categoriesListHTML.appendChild(categoryHTML)
+
+       
+
     }
 }   
 
@@ -96,14 +104,53 @@ function renderfilteredBooksByCategory(category, booksToRender) {
 let clearCartButton =  document.getElementById("clear-cart")
 clearCartButton.addEventListener("click", function(){
     let cartItems = document.getElementsByClassName("cart-item");
-    
-    // Loop through the cart items and remove each one
-    // We need to go backwards in the loop because we are removing elements
-    for (let i = cartItems.length - 1; i >= 0; i--) {
-        cartItems[i].remove();
-    }
-})
+       let cartData = [];
 
+       for (let i = cartItems.length - 1; i >= 0; i--) {
+     
+           cartData.push(cartItems[i].textContent);
+   
+           cartItems[i].remove();
+       }
+   localStorage.clear()
+   
+     
+       console.log(JSON.parse(localStorage.getItem("cartItems")));
+   });
+
+
+
+   let viewCartButton =  document.getElementById("view-cart")
+   viewCartButton.addEventListener("click", function(){
+       let cartItems = document.getElementsByClassName("cart-item");
+
+       for(let i=0; i < cartItems.length; i++) {
+      let saved =  Array.from(cartItems).map(item => item.textContent)
+      localStorage.setItem("cartItems", JSON.stringify(saved));
+
+           console.log(saved)
+       console.log(JSON.parse(localStorage.getItem("cartItems")));
+       }
+
+
+   
+
+   })
+
+
+    window.onload = function () {
+    let savedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    const cartList = document.getElementById('cart-list');
+    cartList.innerHTML = ""; 
+
+    savedCartItems.forEach(item => {
+        const newCartItem = document.createElement('li');
+        newCartItem.className = "cart-item";
+        newCartItem.textContent = item;
+        cartList.appendChild(newCartItem);
+    });
+};
 
 
 // Initial rendering of categories
